@@ -12,29 +12,24 @@ import android.util.Log;
  * Created by bjit on 10/8/15.
  */
 public class RunManager {
+    private static final String PREFS_FILE = "runs";
+    public static final String PREFS_CURRENT_RUN_ID = "RunManager.currentRunId";
+    public static final String ACTION_LOCATION = "com.bjitgroup.android.farhan.runtracker.ACTION_LOCATION";
     private static final String TAG = "RunManager";
     private static final String TEST_PROVIDER = "TEST_PROVIDER";
-
-    public static final String PREFS_FILE = "runs";
-    public static final String PREFS_CURRENT_RUN_ID = "RunManager.currentId";
-
     private static RunManager sRunManager;
     private Context mContext;
     private LocationManager mLocationManager;
-
-    private RunDatabaseHelper mRunDBHelper;
+    private RunDatabaseHelper mHelper;
     private SharedPreferences mPrefs;
     private long mCurrentRunId;
-
-    public static final String ACTION_LOCATION = "com.bjitgroup.android.farhan.runtracker.ACTION_LOCATION";
-
 
 
     private RunManager(Context context) {
         mContext = context;
         mLocationManager = (LocationManager) mContext
                 .getSystemService(Context.LOCATION_SERVICE);
-        mRunDBHelper = new RunDatabaseHelper(mContext);
+        mHelper = new RunDatabaseHelper(mContext);
         mPrefs = mContext.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         mCurrentRunId = mPrefs.getLong(PREFS_CURRENT_RUN_ID, -1);
     }
@@ -60,9 +55,9 @@ public class RunManager {
         return run != null && run.getId() == mCurrentRunId;
     }
 
-    public void startlocationUpdates() throws SecurityException{
+    public void startlocationUpdates() throws SecurityException {
         String provider = LocationManager.GPS_PROVIDER;
-        if(mLocationManager.getProvider(TEST_PROVIDER) != null &&
+        if (mLocationManager.getProvider(TEST_PROVIDER) != null &&
                 mLocationManager.isProviderEnabled(TEST_PROVIDER)) {
             provider = TEST_PROVIDER;
         }
@@ -70,7 +65,7 @@ public class RunManager {
 
         Location lastKnown = mLocationManager.getLastKnownLocation(provider);
 
-        if(lastKnown != null) {
+        if (lastKnown != null) {
             lastKnown.setTime(System.currentTimeMillis());
             broadcastlocation(lastKnown);
         }
@@ -81,7 +76,7 @@ public class RunManager {
 
     public void stopLocationUpdates() {
         PendingIntent pi = getLocationPendingIntent(false);
-        if(pi != null) {
+        if (pi != null) {
             mLocationManager.removeUpdates(pi);
             pi.cancel();
         }
@@ -114,42 +109,42 @@ public class RunManager {
 
     private Run insertRun() {
         Run run = new Run();
-        run.setId(mRunDBHelper.insertRun(run));
+        run.setId(mHelper.insertRun(run));
         return run;
     }
 
     public void insertLocation(Location location) {
-        if(mCurrentRunId != 1) {
-            mRunDBHelper.insertLocation(mCurrentRunId, location);
+        if (mCurrentRunId != -1) {
+            mHelper.insertLocation(mCurrentRunId, location);
         } else {
             Log.e(TAG, "Location received with no tracking run; IGNORING.");
         }
     }
 
     public RunDatabaseHelper.RunCursor queryRuns() {
-        return mRunDBHelper.queryRun();
+        return mHelper.queryRuns();
     }
 
     public Run getRun(long id) {
         Run run = null;
-        RunDatabaseHelper.RunCursor cursor = mRunDBHelper.queryRun(id);
+        RunDatabaseHelper.RunCursor cursor = mHelper.queryRun(id);
         cursor.moveToFirst();
-        if(!cursor.isAfterLast())
+        if (!cursor.isAfterLast())
             run = cursor.getRun();
         cursor.close();
         return run;
     }
 
-    public  Location getLastLocationForRun(long runId) {
+    public Location getLastLocationForRun(long runId) {
         Location location = null;
-        RunDatabaseHelper.LocationCursor cursor = mRunDBHelper
+        RunDatabaseHelper.LocationCursor cursor = mHelper
                 .queryLastLocationForRun(runId);
         cursor.moveToFirst();
-        if(!cursor.isAfterLast())
+        if (!cursor.isAfterLast())
             location = cursor.getLocation();
         cursor.close();
         return location;
     }
 
-    
+
 }

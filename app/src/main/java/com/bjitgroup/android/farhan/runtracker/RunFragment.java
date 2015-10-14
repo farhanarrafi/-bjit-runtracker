@@ -34,7 +34,6 @@ public class RunFragment extends Fragment {
     private static final int NOTIFICATION_ID = 3;
     private static final String ARG_RUN_ID = "RUN_ID";
 
-    private View tv;
 
     private Run mRun;
     private RunManager mRunManager;
@@ -74,7 +73,6 @@ public class RunFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         mRunManager = RunManager.get(getActivity());
-
 
 
         if (ContextCompat.checkSelfPermission(getActivity(),
@@ -133,8 +131,6 @@ public class RunFragment extends Fragment {
                 updateUI();
             }
         });
-        mRun = mRunManager.startNewRun();
-
 
         updateUI();
         return view;
@@ -145,9 +141,9 @@ public class RunFragment extends Fragment {
         Intent intent = new Intent(getActivity(), RunActivity.class);
 
         Bundle args = new Bundle();
-        args.putLong(ARG_RUN_ID, mRun.getId());
+        args.putLong(RunActivity.EXTRA_RUN_ID, mRun.getId());
         PendingIntent pi = PendingIntent
-                .getActivity(getActivity(), 0, intent, 0, args);
+                .getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT, args);
 
         mBuilder = new NotificationCompat.Builder(getActivity())
                 .setSmallIcon(R.drawable.notification_icon)
@@ -171,15 +167,16 @@ public class RunFragment extends Fragment {
         super.onStop();
     }
 
-    @Override
+ /*   @Override
     public void onPause() {
         super.onPause();
-        if (mRunManager.isTrackingRun(mRun) && notiManager != null) {
+        if (mRunManager.isTrackingRun(mRun)) {
             createNotification();
-            notiManager.notify(NOTIFICATION_ID, mBuilder.build());
+            if(notiManager != null)
+                notiManager.notify(NOTIFICATION_ID, mBuilder.build());
         }
 
-    }
+    }*/
 
 
     private void updateUI() {

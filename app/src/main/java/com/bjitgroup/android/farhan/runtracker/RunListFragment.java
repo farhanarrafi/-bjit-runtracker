@@ -2,8 +2,8 @@ package com.bjitgroup.android.farhan.runtracker;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -20,19 +20,20 @@ import android.widget.TextView;
  * Created by bjit on 10/12/15.
  */
 public class RunListFragment extends ListFragment {
+    private static final String PREFS_FILE = "runs";
     private static int ACTIVE_LIST_ITEM_COLOR = 0;
     private static int INACTIVE_LIST_ITEM_COLOR = 0;
     private static final int REQUEST_NEW_RUN = 0;
     private RunDatabaseHelper.RunCursor mCursor;
 
-    Context context;
+    private static Drawable oldColor;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mCursor = RunManager.get(getActivity()).queryRuns();
-        context = getActivity().getApplicationContext();
         RunCursorAdapter adapter = new RunCursorAdapter(getActivity(), mCursor);
         setListAdapter(adapter);
         ACTIVE_LIST_ITEM_COLOR = getActivity().getResources().getColor(android.R.color.holo_red_light);
@@ -41,7 +42,6 @@ public class RunListFragment extends ListFragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mCursor.close();
         super.onDestroy();
     }
@@ -67,9 +67,8 @@ public class RunListFragment extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_NEW_RUN) {
+        if (REQUEST_NEW_RUN == requestCode) {
             mCursor.requery();
-
             ((RunCursorAdapter) getListAdapter()).notifyDataSetChanged();
         }
     }
@@ -101,14 +100,18 @@ public class RunListFragment extends ListFragment {
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             Run run = mRunCursor.getRun();
-            TextView textViewStartDate = (TextView) view;
+            TextView tvStartDate = (TextView) view;
             String cellText = context
                     .getString(R.string.cell_text, run.getStartDate());
-            SharedPreferences pref = context.getSharedPreferences(RunManager.PREFS_FILE, Context.MODE_PRIVATE);
-            if( pref.getLong(RunManager.PREFS_CURRENT_RUN_ID, -1) == run.getId())
-                textViewStartDate.setBackgroundColor(ACTIVE_LIST_ITEM_COLOR);
-            textViewStartDate.setBackgroundColor(INACTIVE_LIST_ITEM_COLOR);
-            textViewStartDate.setText(cellText + " at: "+ run.getStartDate());
+            RunManager runMan = RunManager.get(context);
+            boolean running = runMan.isTrackingRun(run);
+            if(running) {
+                oldColor = tvStartDate.getBackground();
+                tvStartDate.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
+            } else {
+                tvStartDate.setBackgroundColor(0x00000000);
+            }
+            tvStartDate.setText(cellText + " at: "+ run.getStartDate());
         }
     }
 }

@@ -73,7 +73,7 @@ public class RunDatabaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase().insert(TABLE_LOCATION, null, cv);
     }
 
-    public RunCursor queryRun() {
+    public RunCursor queryRuns() {
         Cursor wrapped = getReadableDatabase()
                 .query(TABLE_RUN,
                         null,
@@ -121,10 +121,8 @@ public class RunDatabaseHelper extends SQLiteOpenHelper {
                 return null;
             // else
             Run run = new Run();
-            long runId = getLong(getColumnIndex(COLUMN_RUN_ID));
-            run.setId(runId);
-            long startDate = getLong(getColumnIndex(COLUMN_RUN_START_DATE));
-            run.setStartDate(new Date(startDate));
+            run.setId(getLong(getColumnIndex(COLUMN_RUN_ID)));
+            run.setStartDate(new Date(getLong(getColumnIndex(COLUMN_RUN_START_DATE))));
             return run;
         }
     }
