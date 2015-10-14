@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context=".RunActivity">
+
+    <LinearLayout style="@style/myRowStyle">
+
+        <TextView style="@style/myViewStyle"
+            android:labelFor="@+id/textView_startTime"
+            android:text="@string/textView_startTime"
+            android:textColor="#9acc02"/>
+
+        <TextView
+            android:id="@+id/textView_startTime"
+            style="@style/myViewStyle" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/myRowStyle">
+
+        <TextView
+            style="@style/myViewStyle"
+            android:labelFor="@+id/textView_duration"
+            android:text="@string/textView_duration"
+            android:textColor="#0075ff" />
+
+        <TextView
+            android:id="@+id/textView_duration"
+            style="@style/myViewStyle" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/myRowStyle">
+
+        <TextView
+            style="@style/myViewStyle"
+            android:labelFor="@+id/textView_longitude"
+            android:text="@string/textView_longitude" />
+
+        <TextView
+            android:id="@+id/textView_longitude"
+            style="@style/myViewStyle" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/myRowStyle">
+
+        <TextView
+            style="@style/myViewStyle"
+            android:labelFor="@+id/textView_latitude"
+            android:text="@string/textView_latitude" />
+
+        <TextView
+            android:id="@+id/textView_latitude"
+            style="@style/myViewStyle" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/myRowStyle">
+
+        <TextView
+            style="@style/myViewStyle"
+            android:labelFor="@+id/textView_altitude"
+            android:text="@string/textView_altitude" />
+
+        <TextView
+            android:id="@+id/textView_altitude"
+            style="@style/myViewStyle" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/myRowStyle"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/button_start"
+            style="@style/myViewStyle"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:text="@string/button_start"/>
+
+        <Button
+            android:id="@+id/button_stop"
+            style="@style/myViewStyle"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:text="@string/button_stop"/>
+    </LinearLayout>
+
+
+</LinearLayout>

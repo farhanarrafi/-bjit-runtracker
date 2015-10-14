@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Run Tracker</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="textView_longitude">Longitude :</string>
+    <string name="textView_latitude">Latitude :</string>
+    <string name="textView_altitude">Altitude :</string>
+    <string name="textView_startTime">Start Time: </string>
+    <string name="textView_duration">Duration: </string>
+
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="gps_enabled">GPS Enabled</string>
+    <string name="gps_disabled">GPS Disabled</string>
+    <string name="cell_text">New Run </string>
+    <string name="new_run">New Run</string>
+
+</resources>
