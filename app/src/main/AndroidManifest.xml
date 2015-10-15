@@ -9,8 +9,9 @@
     <uses-feature android:required="true" android:name="android.hardware.location.gps" />
 
     <application
+        android:logo="@drawable/run_icon"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/run_icon"
         android:label="@string/app_name" >
         <activity
             android:name=".RunListActivity"

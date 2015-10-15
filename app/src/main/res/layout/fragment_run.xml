@@ -13,9 +13,11 @@
             android:text="@string/textView_startTime"
             android:textColor="#9acc02"/>
 
-        <TextView
+        <EditText
             android:id="@+id/textView_startTime"
-            style="@style/myViewStyle" />
+            style="@style/myViewStyle"
+            android:inputType="text"
+            android:editable="false" />
     </LinearLayout>
 
     <LinearLayout style="@style/myRowStyle">
@@ -26,9 +28,10 @@
             android:text="@string/textView_duration"
             android:textColor="#0075ff" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView_duration"
-            style="@style/myViewStyle" />
+            style="@style/myViewStyle"
+            android:editable="false" />
     </LinearLayout>
 
     <LinearLayout style="@style/myRowStyle">
@@ -38,9 +41,10 @@
             android:labelFor="@+id/textView_longitude"
             android:text="@string/textView_longitude" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView_longitude"
-            style="@style/myViewStyle" />
+            style="@style/myViewStyle"
+            android:editable="false" />
     </LinearLayout>
 
     <LinearLayout style="@style/myRowStyle">
@@ -50,9 +54,10 @@
             android:labelFor="@+id/textView_latitude"
             android:text="@string/textView_latitude" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView_latitude"
-            style="@style/myViewStyle" />
+            style="@style/myViewStyle"
+            android:editable="false" />
     </LinearLayout>
 
     <LinearLayout style="@style/myRowStyle">
@@ -62,9 +67,10 @@
             android:labelFor="@+id/textView_altitude"
             android:text="@string/textView_altitude" />
 
-        <TextView
+        <EditText
             android:id="@+id/textView_altitude"
-            style="@style/myViewStyle" />
+            style="@style/myViewStyle"
+            android:editable="false"/>
     </LinearLayout>
 
     <LinearLayout

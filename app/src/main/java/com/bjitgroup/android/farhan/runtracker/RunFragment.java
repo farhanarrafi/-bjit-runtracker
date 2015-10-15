@@ -139,15 +139,13 @@ public class RunFragment extends Fragment {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void createNotification() {
         Intent intent = new Intent(getActivity(), RunActivity.class);
-
-        Bundle args = new Bundle();
-        args.putLong(RunActivity.EXTRA_RUN_ID, mRun.getId());
+        intent.putExtra(RunActivity.EXTRA_RUN_ID, mRun.getId());
         PendingIntent pi = PendingIntent
-                .getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT, args);
+                .getActivity(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         mBuilder = new NotificationCompat.Builder(getActivity())
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("Run Update Notification")
+                .setContentTitle("Run Notification")
                 .setContentText("Run Update of : " + mRun.getStartDate())
                 .setContentIntent(pi);
 
